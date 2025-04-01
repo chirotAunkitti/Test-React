@@ -4,7 +4,7 @@ function Navbar() {
   return (
     <nav className='bg-black p-5'>
         <div className='container mx-auto flex justify-between items-center'>
-            <a href='/' className='text-white text-2xl font-bold'>User Management</a>
+            <a href='/' className='text-white text-2xl font-bold'>User Cards</a>
 
             <ul className='flex space-x-4'>
                 <li><a href='#' className='text-white'>Home</a></li>

@@ -2,7 +2,7 @@ import React from 'react';
 
 const UserCard = ({ name, email, image }) => {
   return (
-    <div className="bg-gray-40 rounded-lg shadow-sm p-9 hover:shadow-lg">
+    <div className="bg-gray-50 rounded-lg shadow-sm p-9 hover:shadow-lg">
       <div className="flex flex-col items-center text-center">
         <img 
           src={image} 

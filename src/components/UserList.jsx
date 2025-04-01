@@ -1,9 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import UserCard from './UserCard';
-import { users } from '../data/users';
+import { users as mockUsers } from '../data/users';
 
 const UserList = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); 
+
+  // Mock การโหลดข้อมูล
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setUsers(mockUsers); 
+      setIsLoading(false); 
+    }, 1000); 
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   const filteredUsers = users.filter((user) =>
     user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -19,18 +31,16 @@ const UserList = () => {
             placeholder="ค้นหาผู้ใช้..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-3 rounded-full bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-200"
+            className="w-full px-4 py-3 rounded-full bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
           />
-          <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-            <svg className="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-            </svg>
-          </div>
         </div>
       </div>
 
       <h2 className="text-2xl font-bold mb-6 text-center mt-10">User list</h2>
-      {filteredUsers.length > 0 ? (
+
+      {isLoading ? (
+        <div className="text-center text-gray-500 py-20 text-lg">กำลังโหลดข้อมูลผู้ใช้...</div>
+      ) : filteredUsers.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredUsers.map((user) => (
             <UserCard 
@@ -50,9 +60,11 @@ const UserList = () => {
         </div>
       )}
 
-      <div className="mt-6 text-sm text-gray-500">
-        พบผู้ใช้ทั้งหมด {filteredUsers.length} คน
-      </div>
+      {!isLoading && (
+        <div className="mt-6 text-sm text-gray-500">
+          พบผู้ใช้ทั้งหมด {filteredUsers.length} คน
+        </div>
+      )}
     </div>
   );
 };
